@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView } from 'react-native';
 import PokemonRegion from './src/components/PokemonRegion';
-// import Johto from './src/components/Johto';
 
 export default class HelloWorldApp extends Component {
   render() {
