@@ -17,9 +17,27 @@ class PokemonRegion extends React.Component {
         }
     }
 
+    styles = {
+        modalParentView: {
+            backgroundColor: 'rgba(128,128,128,0.4)'  
+        },
+        modalView: {
+            width: '78%',
+            height: '60%',
+            padding: 15,
+            marginRight: 'auto',
+            marginLeft: 'auto',
+            marginTop: 'auto',
+            marginBottom: 'auto',
+            backgroundColor: 'rgba(255,255,255,1)',
+            borderColor: 'blue'
+        }
+    }
+
     pokedexArr = [];
 
-    toggleModal(visible) {
+    toggleModal(visible, pokedexNum) {
+        this.state.modalData.pokedexNumber = pokedexNum;
         this.setState({ modalVisible: visible });
      }
 
@@ -52,7 +70,7 @@ class PokemonRegion extends React.Component {
             this.pokedexArr.map(pokedexNum => ( 
                 <TouchableOpacity
                     key={ 'poke' + pokedexNum }
-                    onPress={ () => this.toggleModal(!this.state.modalVisible) } >
+                    onPress={ () => this.toggleModal(!this.state.modalVisible, pokedexNum) } >
                     <Image
                         style={{width: 100, height: 100, resizeMode: 'contain' }}
                         resizeMethod={ 'resize' }
@@ -66,18 +84,30 @@ class PokemonRegion extends React.Component {
     render() {
         return (
             <React.Fragment>
+                {/* Pokemon Info Screen */}
                 <Modal 
-                    animationType = {"slide"}
-                    transparent = {false}
-                    visible = {this.state.modalVisible}>
-                    <View>
-                        <Text>Modal is open!</Text>
-                        <TouchableHighlight onPress = {() => {
-                            this.toggleModal(!this.state.modalVisible)}}>
-                            <Text>Close Modal</Text>
-                        </TouchableHighlight>
-                    </View>
+                    style = { this.styles.modalParentView }
+                    animationType = { "slide" }
+                    transparent = { true }
+                    visible = { this.state.modalVisible }
+                    onPress = {() => {
+                        this.toggleModal(!this.state.modalVisible)}}>
+                    
+                    {/*Pokemon Information */}
+                    <TouchableHighlight onPress = {() => {
+                        this.toggleModal(!this.state.modalVisible)}}
+                        style = { this.styles.modalView } >
+                        <View>
+                            <Text>{ 'Pokemon Name: ' +  this.state.modalData.pokemonName } </Text>
+                            <Text>{ 'Pokedex Number: ' +  this.state.modalData.pokedexNumber } </Text>
+                            <Text>{ 'Attack Stat: ' +  this.state.modalData.atkStat } </Text>
+                            <Text>{ 'Defense Stat: ' +  this.state.modalData.defStat } </Text>
+                            <Text>{ 'HP Stat: ' +  this.state.modalData.hpStat } </Text>
+                        </View>                    
+                    </TouchableHighlight>
                 </Modal>
+
+                {/* Pokemon List */}
                 {this.fillArray(this.props.region)}
                 {this.renderPokemonImages()}
             </React.Fragment>
@@ -85,4 +115,4 @@ class PokemonRegion extends React.Component {
     }
 }
 
-export default PokemonRegion;
+export default PokemonRegion; 
